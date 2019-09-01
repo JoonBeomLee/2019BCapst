@@ -26,3 +26,11 @@
 
 1-1. 운동 영상 분석통한 사용자 Health Care 보조 프로그램
 
+
+# 2. 사용될 모듈 검사 및 자료 조사
+
+    2-1. 영상 분석 모듈 조사
+    
+    참조 주소 : https://github.com/93TEI/3D_Action_Recognition
+             : 
+ 
