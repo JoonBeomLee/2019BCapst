@@ -1,0 +1,3 @@
+[submodule "3D_Action_Recognition"]
+	path = 3D_Action_Recognition
+	url = https://github.com/93TEI/3D_Action_Recognition.git
