@@ -17,14 +17,13 @@ start_datetime = time.strftime("-%m-%d-%H-%M-%S", currentDT)
 
 # image 사이즈 조정 -> 연산 속도 위함
 def crop(image, w, f):
-    return image[:, int(w * f): int(w * (1 - f))]
-    #return image
-
+    #return image[:, int(w * f): int(w * (1 - f))]
+    return image
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', type=int, default=0, help='ID of the device to open')
-    parser.add_argument('--model', type=str, default='data/model.h5', help='path to the weights file')
+    parser.add_argument('--model', type=str, default='../../large_file/model.h5', help='path to the weights file')
     parser.add_argument('--frame_ratio', type=int, default=7, help='analyze every [n] frames')
     # --process_speed changes at how many times the model analyzes each frame at a different scale
     parser.add_argument('--process_speed', type=int, default=1,
@@ -37,7 +36,8 @@ if __name__ == '__main__':
     keras_weights_file = args.model
     frame_rate_ratio = args.frame_ratio
     process_speed = args.process_speed
-    out_name = args.out_name
+    #out_name = args.out_name
+    out_name = "joonb_skeleton.mp4"
     mirror = args.mirror
 
     print('start processing...')
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     params, model_params = config_reader()
 
     # Video reader
-    cam = cv2.VideoCapture("./data/pull_up.mp4")
+    cam = cv2.VideoCapture("./data/joonb_encoded.mp4")
     # CV_CAP_PROP_FPS
     input_fps = cam.get(cv2.CAP_PROP_FPS)
     print("Running at {} fps.".format(input_fps))
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     out = None
     # Output location
     if out_name is not None and ret_val is not None:
-        output_path = 'videos/outputs/'
+        output_path = 'data/outputs/'
         output_format = '.mp4'
         video_output = output_path + out_name + output_format
 
@@ -121,6 +121,7 @@ if __name__ == '__main__':
         # add remove background only skeleton
         numpy_tmp = np.zeros((canvas.shape[0], canvas.shape[1], 3), dtype=np.uint8)
         canvas_skeleton = draw(numpy_tmp, all_peaks, subset, candidate, resize_fac=resize_fac)
+        canvas_skeleton_gray = cv2.cvtColor(canvas_skeleton, cv2.COLOR_BGR2GRAY)
 
         print('Processing frame: ', i)
         toc = time.time()
@@ -131,14 +132,15 @@ if __name__ == '__main__':
 
         #canvas = cv2.resize(canvas, (0, 0), fx=4, fy=4, interpolation=cv2.INTER_CUBIC)
 
-        print(type(canvas_skeleton), canvas_skeleton.shape, type(canvas), canvas.shape)
+        print(type(canvas_skeleton_gray), canvas_skeleton_gray.shape, type(canvas), canvas.shape)
 
+        ### video print
         cv2.imshow('frame_origin', canvas)
         cv2.imshow('frame_only_skeleton', canvas_skeleton)
+        cv2.imshow('frame_only_skeleton_gray', canvas_skeleton_gray)
 
         ### add write skeleton frame
-        skeleton_file.write(str(canvas_skeleton))
-        skeleton_file.write("\n")
+        #np.savetxt(skeleton_file, canvas_skeleton_gray, delimiter=" ", fmt="%s")
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
