@@ -1,4 +1,19 @@
-import cv2
+import cv2 as cv
+import argparse
+import time 
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
+parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
+parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
+parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
+
+args = parser.parse_args()
+
+net = cv.dnn.readNetFromTensorflow("./data/graph_opt.pb")
+
+inWidth = args.width
+inHeight = args.height
 
 # MPII에서 각 파트 번호, 선으로 연결될 POSE_PAIRS
 BODY_PARTS = { "Head": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
@@ -10,73 +25,62 @@ POSE_PAIRS = [ ["Head", "Neck"], ["Neck", "RShoulder"], ["RShoulder", "RElbow"],
                 ["RElbow", "RWrist"], ["Neck", "LShoulder"], ["LShoulder", "LElbow"],
                 ["LElbow", "LWrist"], ["Neck", "Chest"], ["Chest", "RHip"], ["RHip", "RKnee"],
                 ["RKnee", "RAnkle"], ["Chest", "LHip"], ["LHip", "LKnee"], ["LKnee", "LAnkle"] ]
-    
-# 각 파일 path
-protoFile = "D:\\python_D\\fashion_data\\pose_deploy_linevec_faster_4_stages.prototxt"
-weightsFile = "D:\\python_D\\fashion_data\\pose_iter_160000.caffemodel"
- 
-# 위의 path에 있는 network 불러오기
-net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
-# 이미지 읽어오기
-image = cv2.imread("D:\\python_D\\fashion_data\\full_body7.png")
+# file_path
+file_path_origin = "./data/pull_up_img/N.jpg"
 
-# frame.shape = 불러온 이미지에서 height, width, color 받아옴
-imageHeight, imageWidth, _ = image.shape
- 
-# network에 넣기위해 전처리
-inpBlob = cv2.dnn.blobFromImage(image, 1.0 / 255, (imageWidth, imageHeight), (0, 0, 0), swapRB=False, crop=False)
- 
-# network에 넣어주기
-net.setInput(inpBlob)
+for i in range(1, 15):
+    file_path = file_path_origin.replace("N", str(i))
 
-# 결과 받아오기
-output = net.forward()
+    # 이미지 읽어오기
+    image = cv.imread(file_path)
 
-# output.shape[0] = 이미지 ID, [1] = 출력 맵의 높이, [2] = 너비
-H = output.shape[2]
-W = output.shape[3]
-print("이미지 ID : ", len(output[0]), ", H : ", output.shape[2], ", W : ",output.shape[3]) # 이미지 ID
+    # frame.shape = 불러온 이미지에서 height, width, color 받아옴
+    imageHeight, imageWidth, _ = image.shape
 
-# 키포인트 검출시 이미지에 그려줌
-points = []
-for i in range(0,15):
-    # 해당 신체부위 신뢰도 얻음.
-    probMap = output[0, i, :, :]
- 
-    # global 최대값 찾기
-    minVal, prob, minLoc, point = cv2.minMaxLoc(probMap)
+    ### pose estimation
+    frameWidth = image.shape[1]
+    frameHeight = image.shape[0]
 
-    # 원래 이미지에 맞게 점 위치 변경
-    x = (imageWidth * point[0]) / W
-    y = (imageHeight * point[1]) / H
+    net.setInput(cv.dnn.blobFromImage(image, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
+    out = net.forward()
+    out = out[:, :19, :, :]  # MobileNet output [1, 57, -1, -1], we only need the first 19 elements
 
-    # 키포인트 검출한 결과가 0.1보다 크면(검출한곳이 위 BODY_PARTS랑 맞는 부위면) points에 추가, 검출했는데 부위가 없으면 None으로    
-    if prob > 0.1 :    
-        cv2.circle(image, (int(x), int(y)), 3, (0, 255, 255), thickness=-1, lineType=cv2.FILLED)       # circle(그릴곳, 원의 중심, 반지름, 색)
-        cv2.putText(image, "{}".format(i), (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, lineType=cv2.LINE_AA)
-        points.append((int(x), int(y)))
-    else :
-        points.append(None)
+    #assert(len(BODY_PARTS) == out.shape[1])
 
-cv2.imshow("Output-Keypoints",image)
-cv2.waitKey(0)
+    points = []
+    for i in range(len(BODY_PARTS)):
+        # Slice heatmap of corresponging body's part.
+        heatMap = out[0, i, :, :]
 
-# 이미지 복사
-imageCopy = image
+        # Originally, we try to find all the local maximums. To simplify a sample
+        # we just find a global one. However only a single pose at the same time
+        # could be detected this way.
+        _, conf, _, point = cv.minMaxLoc(heatMap)
+        x = (frameWidth * point[0]) / out.shape[3]
+        y = (frameHeight * point[1]) / out.shape[2]
+        # Add a point if it's confidence is higher than threshold.
+        points.append((int(x), int(y)) if conf > args.thr else None)
 
-# 각 POSE_PAIRS별로 선 그어줌 (머리 - 목, 목 - 왼쪽어깨, ...)
-for pair in POSE_PAIRS:
-    partA = pair[0]             # Head
-    partA = BODY_PARTS[partA]   # 0
-    partB = pair[1]             # Neck
-    partB = BODY_PARTS[partB]   # 1
-    
-    #print(partA," 와 ", partB, " 연결\n")
-    if points[partA] and points[partB]:
-        cv2.line(imageCopy, points[partA], points[partB], (0, 255, 0), 2)
+    for pair in POSE_PAIRS:
+        partFrom = pair[0]
+        partTo = pair[1]
+        assert(partFrom in BODY_PARTS)
+        assert(partTo in BODY_PARTS)
+
+        idFrom = BODY_PARTS[partFrom]
+        idTo = BODY_PARTS[partTo]
+
+        if points[idFrom] and points[idTo]:
+            cv.line(image, points[idFrom], points[idTo], (0, 255, 0), 3)
+            cv.ellipse(image, points[idFrom], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
+            cv.ellipse(image, points[idTo], (3, 3), 0, 0, 360, (0, 0, 255), cv.FILLED)
+    #### 
 
 
-cv2.imshow("Output-Keypoints",imageCopy)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    cv.imshow('OpenPose using OpenCV', image)
+    print(image, image.shape)
+
+    if cv.waitKey(1000) == ord('q'): break
+
+cv.destroyAllWindows()

@@ -73,6 +73,10 @@ while True:
     if not hasFrame:
         cv.waitKey()
         break
+    
+    #### add
+    print(frame, frame.shape)
+    ####
 
     cv.imshow('OpenPose using OpenCV', frame)
 
