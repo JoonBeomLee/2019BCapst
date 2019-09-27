@@ -14,6 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 currentDT = time.localtime()
 start_datetime = time.strftime("-%m-%d-%H-%M-%S", currentDT)
+start_datetime_simple = time.strftime("-%m-%d", currentDT)
 
 # image 사이즈 조정 -> 연산 속도 위함
 def crop(image, w, f):
@@ -88,21 +89,14 @@ if __name__ == '__main__':
     params['scale_search'] = scale_search
 
     ### add write skeleton frame
-    skeleton_file = open("./data/skeleton_frame.txt", "w")
+    file_count = 1    
 
     i = 0  # default is 0
     resize_fac = 8
     while(cam.isOpened()) and ret_val is True:
 
-        cv2.waitKey(10)
-
         if cam.isOpened() is False or ret_val is False:
             break
-        
-        '''
-        if mirror:
-            orig_image = cv2.flip(orig_image, 1)
-        '''
 
         tic = time.time()
 
@@ -132,18 +126,23 @@ if __name__ == '__main__':
 
         #canvas = cv2.resize(canvas, (0, 0), fx=4, fy=4, interpolation=cv2.INTER_CUBIC)
 
-        print(type(canvas_skeleton_gray), canvas_skeleton_gray.shape, type(canvas), canvas.shape)
-
         ### video print
         cv2.imshow('frame_origin', canvas)
-        cv2.imshow('frame_only_skeleton', canvas_skeleton)
         cv2.imshow('frame_only_skeleton_gray', canvas_skeleton_gray)
 
         ### add write skeleton frame
         #np.savetxt(skeleton_file, canvas_skeleton_gray, delimiter=" ", fmt="%s")
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        """if cv2.waitKey(1) & 0xFF == ord('q'):
+            break"""
+        input_key = cv2.waitKey(1)
+
+        if input_key == ord('q'): break
+        elif input_key == 32: 
+            output_skeleton_file = './data/outputs/' + "joonb_encoded_" + str(file_count) + ".png"
+            cv2.imwrite(output_skeleton_file, canvas_skeleton_gray)
+            print("save_file")
+            file_count += 1
 
         ret_val, orig_image = cam.read()
 
