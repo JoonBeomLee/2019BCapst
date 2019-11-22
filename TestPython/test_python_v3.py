@@ -3,7 +3,7 @@ import argparse
 import time 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
+parser.add_argument('--input', ,reauired=True, help='Path to image or video. Skip to capture frames from camera')
 parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
 parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
 parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
@@ -27,7 +27,8 @@ POSE_PAIRS = [ ["Head", "Neck"], ["Neck", "RShoulder"], ["RShoulder", "RElbow"],
                 ["RKnee", "RAnkle"], ["Chest", "LHip"], ["LHip", "LKnee"], ["LKnee", "LAnkle"] ]
 
 # file_path
-file_path_origin = "./data/pull_up_img/N.jpg"
+#file_path_origin = "./data/pull_up_img/N.jpg"
+file_path_origin = args.input
 
 for i in range(1, 15):
     file_path = file_path_origin.replace("N", str(i))

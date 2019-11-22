@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="main_frame">
+    <file>tablet_frame.png</file>
+  </qresource>
+  <qresource prefix="check_ico">
+    <file>check_ico_small.png</file>
+  </qresource>
+  <qresource prefix="sign_img">
+    <file>sign_img.png</file>
+  </qresource>
+  <qresource prefix="sign_img_2">
+    <file>sign_img_2.png</file>
+  </qresource>
+  <qresource prefix="home_img">
+    <file>home_img.png</file>
+  </qresource>
+</RCC>

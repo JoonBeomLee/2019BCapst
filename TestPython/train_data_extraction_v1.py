@@ -13,8 +13,8 @@ from cmu_model import get_testing_model
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 currentDT = time.localtime()
-start_datetime = time.strftime("-%m-%d-%H-%M-%S", currentDT)
-start_datetime_simple = time.strftime("-%m-%d", currentDT)
+start_datetime = time.strftime("%m-%d-%H-%M-%S", currentDT)
+start_datetime_simple = time.strftime("%m-%d", currentDT)
 
 # image 사이즈 조정 -> 연산 속도 위함
 def crop(image, w, f):
@@ -24,22 +24,21 @@ def crop(image, w, f):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', type=int, default=0, help='ID of the device to open')
+    parser.add_argument('--input', type=str, required=True, help='Input file path')
     parser.add_argument('--model', type=str, default='../../large_file/model.h5', help='path to the weights file')
     parser.add_argument('--frame_ratio', type=int, default=7, help='analyze every [n] frames')
     # --process_speed changes at how many times the model analyzes each frame at a different scale
     parser.add_argument('--process_speed', type=int, default=1,
                         help='Int 1 (fastest, lowest quality) to 4 (slowest, highest quality)')
     parser.add_argument('--out_name', type=str, default=None, help='name of the output file to write')
-    parser.add_argument('--mirror', type=bool, default=True, help='whether to mirror the camera')
 
     args = parser.parse_args()
     device = args.device
     keras_weights_file = args.model
     frame_rate_ratio = args.frame_ratio
     process_speed = args.process_speed
-    #out_name = args.out_name
-    out_name = "joonb_skeleton.mp4"
-    mirror = args.mirror
+    input_file = args.input
+    out_name = args.out_name
 
     print('start processing...')
 
@@ -53,35 +52,25 @@ if __name__ == '__main__':
     params, model_params = config_reader()
 
     # Video reader
-    cam = cv2.VideoCapture("./data/joonb_encoded.mp4")
+    cam = cv2.VideoCapture(input_file)
+
     # CV_CAP_PROP_FPS
     input_fps = cam.get(cv2.CAP_PROP_FPS)
     print("Running at {} fps.".format(input_fps))
 
     ret_val, orig_image = cam.read()
 
-    width = orig_image.shape[1]
-    height = orig_image.shape[0]
+    # 파일 사이즈 축소를 위한 고정 값
+    width = 320
+    height = 480
     factor = 0.3
 
+    # input text 초기화
+    input_str = ""
+
+    orig_image = cv2.resize(orig_image, (width, height))
+
     print(width, height)
-
-    out = None
-    # Output location
-    if out_name is not None and ret_val is not None:
-        output_path = 'data/outputs/'
-        output_format = '.mp4'
-        video_output = output_path + out_name + output_format
-
-        # Video writer
-        output_fps = input_fps / frame_rate_ratio
-
-        tmp = crop(orig_image, width, factor)
-
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter(video_output, fourcc, output_fps, (tmp.shape[1], tmp.shape[0]))
-
-        del tmp
 
     scale_search = [0.22, 0.25, .5, 1, 1.5, 2]  # [.5, 1, 1.5, 2]
     scale_search = scale_search[0:process_speed]
@@ -89,67 +78,67 @@ if __name__ == '__main__':
     params['scale_search'] = scale_search
 
     ### add write skeleton frame
-    file_count = 1    
+    true_file_count = 1    
+    false_file_count = 1
 
-    i = 0  # default is 0
-    resize_fac = 8
+    
+    # 날짜별 디렉토리 생성
+    try:
+        if not(os.path.isdir("./data/outputs_" + start_datetime_simple)):
+            os.makedirs(os.path.join("./data/outputs_" + start_datetime_simple))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            print("Failed to create directory!!!!!")
+            raise
+
     while(cam.isOpened()) and ret_val is True:
 
         if cam.isOpened() is False or ret_val is False:
             break
 
-        tic = time.time()
-
-        cropped = crop(orig_image, width, factor)
-
-        input_image = cv2.resize(cropped, (0, 0), fx=1/resize_fac, fy=1/resize_fac, interpolation=cv2.INTER_CUBIC)
-
-        input_image = cv2.cvtColor(input_image, cv2.COLOR_RGB2BGR)
-
-        print(cropped.shape, input_image.shape)
-
         # generate image with body parts
-        all_peaks, subset, candidate = extract_parts(input_image, params, model, model_params)
-        canvas = draw(cropped, all_peaks, subset, candidate, resize_fac=resize_fac)
+        all_peaks, subset, candidate = extract_parts(orig_image, params, model, model_params)
+        canvas = draw(orig_image, all_peaks, subset, candidate)
 
         # add remove background only skeleton
         numpy_tmp = np.zeros((canvas.shape[0], canvas.shape[1], 3), dtype=np.uint8)
-        canvas_skeleton = draw(numpy_tmp, all_peaks, subset, candidate, resize_fac=resize_fac)
+        canvas_skeleton = draw(numpy_tmp, all_peaks, subset, candidate)
         canvas_skeleton_gray = cv2.cvtColor(canvas_skeleton, cv2.COLOR_BGR2GRAY)
 
-        print('Processing frame: ', i)
-        toc = time.time()
-        print('processing time is %.5f' % (toc - tic))
+        print("orig_image : ", orig_image.shape, "canvas_skeleton : ", canvas_skeleton.shape, "canvas_skeleton_gray : ", canvas_skeleton_gray.shape)
 
-        if out is not None:
-            out.write(canvas)
-
-        #canvas = cv2.resize(canvas, (0, 0), fx=4, fy=4, interpolation=cv2.INTER_CUBIC)
+        ## putText테스트
+        #           출력 대상, 출력 문, 위치,      폰트,                         문자 크기, 문자 색상
+        cv2.putText(canvas, input_str, (0, 100), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 1, (0, 255, 0))
 
         ### video print
         cv2.imshow('frame_origin', canvas)
         cv2.imshow('frame_only_skeleton_gray', canvas_skeleton_gray)
 
-        ### add write skeleton frame
-        #np.savetxt(skeleton_file, canvas_skeleton_gray, delimiter=" ", fmt="%s")
-
-        """if cv2.waitKey(1) & 0xFF == ord('q'):
-            break"""
+        # 입력 키 
+        # q : 종료 || space bar : 캡쳐
         input_key = cv2.waitKey(1)
-
         if input_key == ord('q'): break
-        elif input_key == 32: 
-            output_skeleton_file = './data/outputs/' + "joonb_encoded_" + str(file_count) + ".png"
+        elif input_key == ord('y'): 
+            output_skeleton_file = './data/outputs_' + start_datetime_simple + "/encoded_True" + str(true_file_count) + ".png"
             cv2.imwrite(output_skeleton_file, canvas_skeleton_gray)
-            print("save_file")
-            file_count += 1
+            print("True File Save", output_skeleton_file)
+            true_file_count += 1
+
+        elif input_key == ord('n'): 
+            output_skeleton_file = './data/outputs_' + start_datetime_simple + "/encoded_False" + str(false_file_count) + ".png"
+            cv2.imwrite(output_skeleton_file, canvas_skeleton_gray)
+            print("False File Save", output_skeleton_file)
+            false_file_count += 1
+        
+        # 자막 테스트
+        elif input_key == ord('t'): 
+            input_str = "change text"
+
 
         ret_val, orig_image = cam.read()
+        orig_image = cv2.resize(orig_image, (width, height))
 
-        i += 1
-
-    ### add write skeleton frame
-    skeleton_file.close()
 
     cam.release()
     cv2.destroyAllWindows()
