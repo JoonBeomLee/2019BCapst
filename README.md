@@ -53,3 +53,4 @@
             d. 적용
                   
  # 시스템 파이프 라인
+ ![image](https://user-images.githubusercontent.com/43035696/70235190-c3308100-17a5-11ea-936d-63138c77dc29.png)
