@@ -85,23 +85,28 @@
  # 실제 프로그램 실행 화면
  메인 페이지
  ![image](https://user-images.githubusercontent.com/43035696/71675514-405d0f00-2dc1-11ea-93f9-ff53ae3a0cf9.png)
+ 
  로그인을 통해 입장 할 수 있는 화면이며, 프로필 관리, 상단 메뉴 이동, 동영상 시청 등을 할 수 있다.
  
  운동 선택 페이지
  ![image](https://user-images.githubusercontent.com/43035696/71675604-79957f00-2dc1-11ea-8adf-e06c275efc02.png)
+ 
  운동 부위에 따른 다양한 운동을 조회 할 수 있고, 수행할 운동을 선택 할 수 있다.
  
  실제 운동 페이지
  ![image](https://user-images.githubusercontent.com/43035696/71675671-a0ec4c00-2dc1-11ea-8156-6de6948cad89.png)
+ 
  왼쪽은 연결된 카메라를 통해 운동 동작을 추적 하는 모습.
  오른쪽은 운동 설명 및 모범 영상 그리고 왼쪽에서 추적한 운동 결과에 따른 진행 사항을 보이는 화면 이다.
  
  기록 열람 페이지
  ![image](https://user-images.githubusercontent.com/43035696/71675772-e0b33380-2dc1-11ea-92db-27793d560e4c.png)
+ 
  누적된 운동 기록을 시각화 하여 제공하는 화면이다. 
  시각화된 자료를 통해 사용자는 지속적인 운동 동기부여를 다질 수 있다.
  
  게시판 페이지
  ![image](https://user-images.githubusercontent.com/43035696/71675826-06403d00-2dc2-11ea-9fb6-2f00869d290e.png)
+ 
  부족한 정보 공유를 위해 게시판을 연결.
  프로그램 내부에서 별도의 익스플로어 없이 실제 사이트를 열람 및 사용 할 수 있다.
