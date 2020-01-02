@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1170</width>
+    <height>813</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btn_goToHome">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>210</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>홈으로</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_startExercise">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>210</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>운동 시작</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_myData">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>210</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>분석하기</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_board">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>210</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>게시판</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tablet_frame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>-70</x>
+      <y>-30</y>
+      <width>1301</width>
+      <height>871</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main_frame/img/tablet_frame.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="sign_img">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>1091</width>
+      <height>671</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main/img/디자인1.jpg</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="openExternalLinks">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QCalendarWidget" name="calendarWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>470</y>
+      <width>301</width>
+      <height>261</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_Dday">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>440</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tmon몬소리 Black</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>D-day</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_profile_change">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>410</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>사진 변경</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_notice_head">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>300</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tmon몬소리 Black</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>공지사항</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_Notice">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>350</y>
+      <width>681</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+background-color:rgb(162, 248, 255)</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="lb_notice_txt1">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>551</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1.  Training Manager 어플이 출시되었습니다.                                  19.11.23                 관리자</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lb_notice_txt1_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>551</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>2.  사용 방법에 대해 간단히 알려드립니다.                                       19.11.24                 관리자</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="lb_notice_head_2">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>440</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tmon몬소리 Black</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>운동 인기 동영상</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_movie_1">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>480</y>
+      <width>221</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main/img/img1.PNG</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="openExternalLinks">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_help">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>62</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{ background-color: rgba(255, 255, 255, 0); }
+QPushButton:hover{}
+QPushButton:l:hover:pressed {}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_logout">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>70</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{ background-color: rgba(255, 255, 255, 0); }
+QPushButton:hover{}
+QPushButton:l:hover:pressed {}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_user_photo">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>221</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main/img/user.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_movie_2">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>480</y>
+      <width>221</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main/img/img2.PNG</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="openExternalLinks">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_movie_3">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>480</y>
+      <width>221</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="main_frame.qrc">:/main/img/img3.PNG</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="openExternalLinks">
+     <bool>false</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_bar">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>610</y>
+      <width>701</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+background-color:rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_video_name">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>전직 UDT. 특수부대 학원에 가다! (숨참기 8분 30초 ㄷㄷ...?) | 달려라 김계란 Ep4 1부</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_video_name_2">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3대 1000kg 탱커 부부 Ep1 힘과 근육량을 '가장 빠르게' 늘려주는 프로그램!?</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_video_name_3">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>110만 유튜버 해외여행 클라스.. ㄷㄷ</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_bar_2">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+background-color:rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_bar_3">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+background-color:rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_bar_4">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>640</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+background-color:rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>480</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_movie_1">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>480</y>
+      <width>221</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{ background-color: rgba(255, 255, 255, 0); }
+QPushButton:hover{}
+QPushButton:l:hover:pressed {}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_movie_2">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>480</y>
+      <width>221</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{ background-color: rgba(255, 255, 255, 0); }
+QPushButton:hover{}
+QPushButton:l:hover:pressed {}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_movie_3">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>480</y>
+      <width>221</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{ background-color: rgba(255, 255, 255, 0); }
+QPushButton:hover{}
+QPushButton:l:hover:pressed {}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_Dday_num">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>440</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tmon몬소리 Black</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_selectDay">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>440</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>D-day 변경</string>
+    </property>
+   </widget>
+   <zorder>pushButton</zorder>
+   <zorder>tablet_frame</zorder>
+   <zorder>sign_img</zorder>
+   <zorder>lb_bar</zorder>
+   <zorder>btn_goToHome</zorder>
+   <zorder>btn_startExercise</zorder>
+   <zorder>btn_myData</zorder>
+   <zorder>btn_board</zorder>
+   <zorder>calendarWidget</zorder>
+   <zorder>lb_Dday</zorder>
+   <zorder>btn_profile_change</zorder>
+   <zorder>frame_Notice</zorder>
+   <zorder>lb_notice_head</zorder>
+   <zorder>lb_notice_head_2</zorder>
+   <zorder>lb_movie_1</zorder>
+   <zorder>btn_help</zorder>
+   <zorder>btn_logout</zorder>
+   <zorder>lb_user_photo</zorder>
+   <zorder>lb_movie_2</zorder>
+   <zorder>lb_movie_3</zorder>
+   <zorder>lb_bar_2</zorder>
+   <zorder>lb_video_name</zorder>
+   <zorder>lb_bar_3</zorder>
+   <zorder>lb_video_name_2</zorder>
+   <zorder>lb_bar_4</zorder>
+   <zorder>lb_video_name_3</zorder>
+   <zorder>btn_movie_1</zorder>
+   <zorder>btn_movie_2</zorder>
+   <zorder>btn_movie_3</zorder>
+   <zorder>lb_Dday_num</zorder>
+   <zorder>btn_selectDay</zorder>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="main_frame.qrc"/>
+ </resources>
+ <connections/>
+</ui>

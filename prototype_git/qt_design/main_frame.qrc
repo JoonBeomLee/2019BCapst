@@ -1,0 +1,57 @@
+<RCC>
+  <qresource prefix="main_frame">
+    <file>img/tablet_frame.png</file>
+  </qresource>
+  <qresource prefix="about">
+    <file>img/about_us.jpg</file>
+  </qresource>
+  <qresource prefix="email">
+    <file>img/img_email.jpg</file>
+  </qresource>
+  <qresource prefix="analysis">
+    <file>img/arm01_day.png</file>
+    <file>img/arm01_month.png</file>
+    <file>img/arm02_day.png</file>
+    <file>img/arm02_month.png</file>
+    <file>img/ham01_day.png</file>
+    <file>img/ham01_month.png</file>
+  </qresource>
+  <qresource prefix="img_logo">
+    <file>img/logo.jpg</file>
+  </qresource>
+  <qresource prefix="temp">
+    <file>img/temp_temp0.jpg</file>
+  </qresource>
+  <qresource prefix="exercise">
+    <file>img/img_zero.jpg</file>
+    <file>img/ex_ham_model.JPG</file>
+    <file>img/ex_arm_model.JPG</file>
+    <file>img/seleted_form.jpg</file>
+    <file>img/실루엣1.jpg</file>
+    <file>img/ex_arm_final1.jpg</file>
+    <file>img/ex_form1.jpg</file>
+    <file>ex_leg1</file>
+  </qresource>
+  <qresource prefix="main">
+    <file>img/img3.PNG</file>
+    <file>img/img1.PNG</file>
+    <file>img/img2.PNG</file>
+    <file>img/img3.PNG</file>
+    <file>img/user.png</file>
+    <file>img/main0.jpg</file>
+    <file>img/디자인1.jpg</file>
+  </qresource>
+  <qresource prefix="button_on_img">
+    <file>img/btn_ON_10.png</file>
+  </qresource>
+  <qresource prefix="check_ico">
+    <file>img/check_ico_small.png</file>
+  </qresource>
+  <qresource prefix="icon">
+    <file>img/warning.png</file>
+  </qresource>
+  <qresource prefix="home_img">
+    <file>img/home_design1.jpg</file>
+    <file>img/hom_and_login.jpg</file>
+  </qresource>
+</RCC>
